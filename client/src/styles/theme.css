@@ -1,0 +1,38 @@
+:root {
+    --netraya-purple: #6f42c1;
+    --netraya-purple-dark: #59339d;
+    --netraya-purple-light: #f3effc;
+    --netraya-white: #ffffff;
+    --netraya-text: #2d2438;
+    --netraya-border: #e4dcef;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--netraya-purple-light);
+    color: var(--netraya-text);
+}
+
+.btn-netraya {
+    background-color: var(--netraya-purple);
+    color: var(--netraya-white);
+    border: none;
+}
+
+.btn-netraya:hover {
+    background-color: var(--netraya-purple-dark);
+    color: var(--netraya-white);
+}
+
+.text-netraya {
+    color: var(--netraya-purple);
+}
+
+.bg-netraya {
+    background-color: var(--netraya-purple);
+}
+
+.border-netraya {
+    border-color: var(--netraya-border) !important;
+}
