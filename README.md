@@ -4,6 +4,7 @@ A **full-stack Eye Clinic Management System** built with **React.js, Node.js, Ex
 
 Netraya is designed to simplify eye clinic operations by connecting patients, doctors, and staff through a centralized digital system. Patients can register, manage their profiles, view doctors and services, while doctors can manage their daily patient queue and view patient information. Staff can manage clinic operations and patient-related activities.
 
+
 ---
 
 # ✨ Features
