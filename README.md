@@ -71,13 +71,9 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 
 ---
 
-# 📂 Everything in One Frame (Structure, Workflow, Screenshots & Setup)
+# 📂 Project Structure & Workflow
 
 ```text
-================================================================================
-📂 PROJECT STRUCTURE
-================================================================================
-
 Netraya
 │
 ├── client
@@ -112,11 +108,9 @@ Netraya
 ├── README.md
 └── .gitignore
 
+# 🔄 Application Workflow
 
-================================================================================
-🔄 APPLICATION WORKFLOW
-================================================================================
-
+```text
                                  👁️ Netraya
                                      │
              ┌───────────────────────┼───────────────────────┐
@@ -140,71 +134,135 @@ Netraya
                                      │
                                      ▼
                               🗄️ MySQL Database
+```
 
+# 📸 Screenshots & UI Previews
 
-================================================================================
-📸 SCREENSHOTS & UI PREVIEWS
-================================================================================
+## 🏠 Home Page
 
-🏠 Home Page
-![Netraya Home Page](screenshots/homepage.png)
+![Netraya Home Page](./screenshots/homepage.png)
 
-🔐 Login Page
-![Netraya Login Page](screenshots/loginpage.png)
+---
 
-📝 Registration Page
-![Netraya Registration Page](screenshots/registerpage.png)
+## 🔐 Login Page
 
-👤 Patient Dashboard
-![Netraya Patient Dashboard](screenshots/patientDashboard.png)
+![Netraya Login Page](./screenshots/loginpage.png)
 
-👨‍⚕️ Doctor Dashboard
-![Netraya Doctor Dashboard](screenshots/doctorDashboard.png)
+---
 
-👨‍⚕️ Doctor Profile
-![Netraya Doctor Profile](screenshots/doctorProfile.png)
+## 📝 Registration Page
 
-👩‍💼 Staff Dashboard
-![Netraya Staff Dashboard](screenshots/staffDashboard.png)
+![Netraya Registration Page](./screenshots/registerpage.png)
 
-👨‍⚕️ Our Doctors
-![Netraya Our Doctors](screenshots/ourdoctors.png)
+---
 
-👁️ Eye Clinic Services
-![Netraya Services](screenshots/services.png)
+## 👤 Patient Dashboard
 
-📋 Today's Patient Queue
-![Netraya Today's Queue](screenshots/todaysqueue.png)
+![Netraya Patient Dashboard](./screenshots/patientDashboard.png)
 
-🔎 Search Patient
-![Netraya Search Patient](screenshots/searchpatient.png)
+---
 
+## 👨‍⚕️ Doctor Dashboard
 
-================================================================================
-⚙️ INSTALLATION & RUNNING LOCALLY
-================================================================================
+![Netraya Doctor Dashboard](./screenshots/doctorDashboard.png)
 
-1. Clone repository:
-   git clone [https://github.com/Rizwana200/Netraya.git](https://github.com/Rizwana200/Netraya.git)
-   cd Netraya
+---
 
-2. Backend Setup:
-   cd server
-   npm install
-   npm start
+## 👨‍⚕️ Doctor Profile
 
-3. Frontend Setup:
-   cd client
-   npm install
-   npm run dev
+![Netraya Doctor Profile](./screenshots/doctorProfile.png)
 
+---
 
-================================================================================
-🚀 FUTURE IMPROVEMENTS
-================================================================================
+## 👩‍💼 Staff Dashboard
+
+![Netraya Staff Dashboard](./screenshots/staffDashboard.png)
+
+---
+
+## 👨‍⚕️ Our Doctors
+
+![Netraya Our Doctors](./screenshots/ourdoctors.png)
+
+---
+
+## 👁️ Eye Clinic Services
+
+![Netraya Services](./screenshots/services.png)
+
+---
+
+## 📋 Today's Patient Queue
+
+![Netraya Today's Queue](./screenshots/todaysqueue.png)
+
+---
+
+## 🔎 Search Patient
+
+![Netraya Search Patient](./screenshots/searchpatient.png)
+
+---
+
+# ⚙️ Installation & Running Locally
+
+Follow these steps to run **Netraya** locally on your system.
+
+## 📋 Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js
+- npm
+- MySQL
+- Git
+- VS Code
+
+---
+
+## 📥 Clone Repository
+
+```bash
+git clone https://github.com/Rizwana200/Netraya.git
+cd Netraya
+
+```
+## 🖥️ Backend Setup
+
+Open a terminal and run:
+
+```bash
+cd server
+npm install
+npm start
+
+```
+The backend will run on:
+
+```bash
+http://localhost:5000
+
+```
+## 🖥️ Frontend Setup
+
+Open a terminal and run:
+
+```bash
+cd client
+npm install
+npm run dev
+
+```
+The backend will run on:
+
+```bash
+http://localhost:5173
+
+```
+
+# 🚀 Future Improvements
 
 - Online Appointment Booking System
-- Automated Token Generation & Queue Alerts
 - Electronic Health Records (EHR) & Prescription Storage
 - Integration with Optical Store Inventory
 - Email & SMS Notifications for Token Status
@@ -212,28 +270,43 @@ Netraya
 - Cloud Storage Integration for Medical Scans
 - Automated Testing Framework
 
+# 💡 Key Learnings
 
-================================================================================
-💡 KEY LEARNINGS
-================================================================================
+Through this project, I gained practical experience in:
 
 - Building RESTful APIs using Express.js and Node.js
 - React component-based architecture and state management
 - MySQL database modeling and relational queries using Sequelize
-- Multi-role Authentication and Authorization (Patient, Doctor, Staff)
+- Multi-role Authentication and Authorization
 - Full-stack application lifecycle management
 - Designing intuitive healthcare management user flows
 - Frontend and backend integration using Axios
 
+# 👩‍💻 Developer
 
-================================================================================
-👩‍💻 DEVELOPER & REPOSITORY INFO
-================================================================================
+## Rizwana 💙
 
-Developer: Rizwana 💙
-Degree: B.Tech – Computer Science & Engineering
-GitHub Profile: [https://github.com/Rizwana200](https://github.com/Rizwana200)
-Repository Link: [https://github.com/Rizwana200/Netraya.git](https://github.com/Rizwana200/Netraya.git)
+**B.Tech – Computer Science & Engineering**
 
-👁️ Netraya — CARE • VISION • PRECISION
-Built with: React.js • Node.js • Express.js • MySQL
+### GitHub
+
+https://github.com/Rizwana200
+
+---
+
+# 💙 Netraya
+
+**CARE • VISION • PRECISION**
+
+A full-stack eye clinic management system built to provide a simple, organized, and efficient digital experience for patients, doctors, and clinic staff.
+
+Built with:
+
+**React.js • Node.js • Express.js • MySQL**
+
+## 🔗 GitHub Repository
+```bash
+
+https://github.com/Rizwana200/Netraya.git
+
+```
