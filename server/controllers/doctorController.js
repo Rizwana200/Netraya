@@ -147,6 +147,104 @@ const getDoctorDashboard = async (req, res) => {
 
 
 // ==========================================
+// GET PATIENT PROFILE
+// ==========================================
+
+const getPatientProfile = async (req, res) => {
+
+    try {
+
+        const {
+            patientId
+        } = req.params;
+
+
+        // ==========================================
+        // FIND PATIENT
+        // ==========================================
+
+        const patient =
+            await Patient.findByPk(
+                patientId,
+                {
+                    include: [
+                        {
+                            model: User,
+
+                            attributes: [
+                                "id",
+                                "name",
+                                "phone"
+                            ]
+                        }
+                    ]
+                }
+            );
+
+
+        // ==========================================
+        // PATIENT NOT FOUND
+        // ==========================================
+
+        if (!patient) {
+
+            return res.status(404).json({
+
+                message:
+                    "Patient not found"
+
+            });
+
+        }
+
+
+        // ==========================================
+        // RESPONSE
+        // ==========================================
+
+        return res.status(200).json({
+
+            patient: {
+
+                id:
+                    patient.id,
+
+                name:
+                    patient.User?.name ||
+                    "Unknown",
+
+                phone:
+                    patient.User?.phone ||
+                    ""
+
+            }
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Patient profile error:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            message:
+                "Failed to load patient profile",
+
+            error:
+                error.message
+
+        });
+
+    }
+
+};
+
+
+// ==========================================
 // UPDATE DOCTOR TOKEN STATUS
 // ==========================================
 
@@ -371,6 +469,8 @@ const updateDoctorTokenStatus = async (
 module.exports = {
 
     getDoctorDashboard,
+
+    getPatientProfile,
 
     updateDoctorTokenStatus
 

@@ -9,7 +9,8 @@ const {
 
 const {
     getDoctorDashboard,
-    updateDoctorTokenStatus
+    updateDoctorTokenStatus,
+    getPatientProfile
 } = require("../controllers/doctorController");
 
 
@@ -17,7 +18,7 @@ const {
 // DOCTOR DASHBOARD
 // ==========================================
 
-// Existing frontend uses /doctor/today
+// Get today's patient queue
 router.get(
     "/today",
     authenticate,
@@ -26,12 +27,25 @@ router.get(
 );
 
 
-// Also keep /doctor/dashboard available
+// Keep dashboard route available
 router.get(
     "/dashboard",
     authenticate,
     authorize("DOCTOR"),
     getDoctorDashboard
+);
+
+
+// ==========================================
+// PATIENT PROFILE
+// ==========================================
+
+// Doctor views a patient's profile
+router.get(
+    "/patient/:patientId",
+    authenticate,
+    authorize("DOCTOR"),
+    getPatientProfile
 );
 
 

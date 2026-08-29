@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
+
 
 const Login = () => {
 
     const navigate = useNavigate();
+
 
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
@@ -29,6 +31,7 @@ const Login = () => {
                     password
                 }
             );
+
 
             const data = response.data;
 
@@ -151,6 +154,26 @@ const Login = () => {
                                     <p className="text-muted mb-0">
                                         Eye Clinic Management System
                                     </p>
+
+                                </div>
+
+
+                                {/* ======================================
+                                    BACK TO HOME
+                                ====================================== */}
+
+                                <div className="text-center mb-3">
+
+                                    <Link
+                                        to="/"
+                                        className="text-decoration-none"
+                                        style={{
+                                            color: "#6f42c1",
+                                            fontWeight: "500"
+                                        }}
+                                    >
+                                        ← Back to Home
+                                    </Link>
 
                                 </div>
 
@@ -316,6 +339,8 @@ const Login = () => {
         </div>
 
     );
+
 };
+
 
 export default Login;

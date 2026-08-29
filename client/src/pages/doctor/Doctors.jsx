@@ -130,21 +130,19 @@ const Doctors = () => {
 
                                         {doctor.profilePhoto ? (
                                             <img
-                                                src={
-                                                    doctor.profilePhoto.startsWith(
-                                                        "http"
-                                                    )
-                                                        ? doctor.profilePhoto
-                                                        : `http://localhost:5000/${doctor.profilePhoto}`
-                                                }
-                                                alt={doctor.name}
-                                                className="rounded-circle"
-                                                style={{
-                                                    width: "90px",
-                                                    height: "90px",
-                                                    objectFit: "cover"
-                                                }}
-                                            />
+    src={
+        doctor.profilePhoto.startsWith("http")
+            ? doctor.profilePhoto
+            : `http://localhost:5000${doctor.profilePhoto}`
+    }
+    alt={doctor.name}
+    className="rounded-circle"
+    style={{
+        width: "90px",
+        height: "90px",
+        objectFit: "cover"
+    }}
+/>
                                         ) : (
                                             <div
                                                 className="rounded-circle d-inline-flex align-items-center justify-content-center"
