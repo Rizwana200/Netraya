@@ -107,6 +107,7 @@ Netraya
 │
 ├── README.md
 └── .gitignore
+```
 
 # 🔄 Application Workflow
 
