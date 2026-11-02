@@ -2,8 +2,24 @@
 
 A **full-stack Eye Clinic Management System** built with **React.js, Node.js, Express.js, and MySQL**.
 
-Netraya is designed to simplify eye clinic operations by connecting patients, doctors, and staff through a centralized digital system. Patients can register, manage their profiles, view doctors and services, while doctors can manage their daily patient queue and view patient information. Staff can manage clinic operations and patient-related activities.
+Netraya replaces paper registers and verbal queues at an eye clinic with a centralized digital system. Patients register and manage their profiles, doctors work through a daily token queue and view patient information, and staff manage patients and tokens.
 
+---
+
+# 📑 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#️-tech-stack)
+- [Project Structure](#-project-structure)
+- [Application Workflow](#-application-workflow)
+- [Database Design](#️-database-design)
+- [Token Queue](#-token-queue)
+- [Screenshots](#-screenshots--ui-previews)
+- [Installation & Running Locally](#️-installation--running-locally)
+- [Known Limitations](#-known-limitations)
+- [Future Improvements](#-future-improvements)
+- [Key Learnings](#-key-learnings)
+- [Developer](#-developer)
 
 ---
 
@@ -15,10 +31,8 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 - Patient Dashboard
 - Manage Patient Profile
 - View Eye Clinic Services
-- View Doctors
-- View Doctor Profiles
+- View Doctors and Doctor Profiles
 - View Today's Token Status
-- Search Patient Information
 - Patient Logout
 
 ## 👨‍⚕️ Doctor Features
@@ -28,8 +42,7 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 - View Today's Patient Queue
 - View Patient Profile
 - Manage Token Status
-- View Doctor Profile
-- Update Doctor Profile
+- View and Update Doctor Profile
 - Track Patient Consultation Status
 
 ## 👩‍💼 Staff Features
@@ -40,7 +53,6 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 - Patient Search
 - Token Management
 - View Patient Information
-- Manage Clinic Operations
 
 ---
 
@@ -48,23 +60,20 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 
 ## Frontend
 
-- React.js
-- Vite
+- React.js (Vite)
 - React Router
 - Bootstrap 5
 - Axios
-- JavaScript
-- CSS
+- JavaScript, CSS
 
 ## Backend
 
 - Node.js
-- Express.js
-- REST APIs
+- Express.js (REST APIs)
+- Sequelize ORM
 - JWT Authentication
-- bcrypt
+- bcrypt (password hashing)
 - dotenv
-- Sequelize
 
 ## Database
 
@@ -72,17 +81,17 @@ Netraya is designed to simplify eye clinic operations by connecting patients, do
 
 ---
 
-# 📂 Project Structure & Workflow
+# 📂 Project Structure
 
 ```text
 Netraya
 │
 ├── client
-│   ├── src
-│   ├── components
-│   ├── pages
-│   ├── layouts
-│   └── services
+│   └── src
+│       ├── components
+│       ├── pages
+│       ├── layouts
+│       └── services
 │
 ├── server
 │   ├── config
@@ -94,21 +103,12 @@ Netraya
 │   └── server.js
 │
 ├── screenshots
-│   ├── doctorDashboard.png
-│   ├── doctorProfile.png
-│   ├── homepage.png
-│   ├── loginpage.png
-│   ├── ourdoctors.png
-│   ├── patientDashboard.png
-│   ├── registerpage.png
-│   ├── searchpatient.png
-│   ├── services.png
-│   ├── staffDashboard.png
-│   └── todaysqueue.png
 │
 ├── README.md
 └── .gitignore
 ```
+
+---
 
 # 🔄 Application Workflow
 
@@ -137,6 +137,48 @@ Netraya
                                      ▼
                               🗄️ MySQL Database
 ```
+
+---
+
+# 🗄️ Database Design
+
+```mermaid
+erDiagram
+    USER ||--o| PATIENT : "has profile"
+    PATIENT ||--o{ TOKEN : "gets"
+    PATIENT ||--o{ EYE_VISIT : "has"
+    PATIENT ||--o{ BILL : "has"
+    PATIENT ||--o{ DOCUMENT : "has"
+    USER ||--o{ EYE_VISIT : "doctor of"
+    EYE_VISIT ||--o{ DOCUMENT : "attached to"
+    USER ||--o{ DOCUMENT : "uploaded by"
+```
+
+| Model | Key fields | Notes |
+|---|---|---|
+| **User** | name, phone (unique), password (bcrypt hash), role | Roles: `PATIENT`, `STAFF`, `DOCTOR`, `ADMIN`. Doctor profile fields (qualification, specialization, experience, registration number, languages, department, bio, photo) are stored here and left empty for other roles. |
+| **Patient** | dateOfBirth, gender, address, profilePhoto | One-to-one with `User`, which holds the login identity (name, phone, password). |
+| **Token** | tokenNumber, tokenDate, status, source | Belongs to a `Patient`. See [Token Queue](#-token-queue). |
+| **ClinicSetting** | dailyTokenLimit (default 50) | Clinic-wide setting for the daily token limit. |
+| **EyeVisit** | visitDate, visual acuity, sphere / cylinder / axis and IOP for each eye, diagnosis, doctorNotes, followUpDate | Belongs to a `Patient` and a doctor (`User`). |
+| **Bill** | billDate, checkupCost, spectaclesCost, spectaclesType, totalCost, paidAmount, dueAmount, status | Belongs to a `Patient`. Status is `DUE` or `COMPLETED`. Amounts are stored as `DECIMAL(10,2)`. |
+| **Document** | documentName, documentType, fileName, filePath, uploadedBy, uploadedAt | Belongs to a `Patient`, optionally linked to an `EyeVisit`, and records the uploading `User`. Types: `PRESCRIPTION`, `EYE_REPORT`, `EYE_SCAN`, `SPECTACLE_PRESCRIPTION`, `OTHER`. Files are saved on the server and the path is stored in the database. |
+
+**Delete behavior:** deleting a patient cascades to their tokens, visits, bills and documents. Deleting a doctor or uploader sets those references to `NULL`, so clinical records are kept.
+
+---
+
+# 🎟️ Token Queue
+
+Netraya uses a **token-based queue** rather than time-slot appointments.
+
+- Each token has a `tokenNumber` and a `tokenDate`, so numbering is per day.
+- **Status flow:** `WAITING` → `CALLED` → `WITH_DOCTOR` → `COMPLETED`, or `CANCELLED` / `NO_SHOW`.
+- **Source:** `WEBSITE`, `PHONE` or `WALK_IN`.
+- The daily token limit is stored in `ClinicSetting.dailyTokenLimit` (default `50`).
+- Doctors see today's queue and update token status as patients are called and seen.
+
+---
 
 # 📸 Screenshots & UI Previews
 
@@ -208,91 +250,99 @@ Netraya
 
 # ⚙️ Installation & Running Locally
 
-Follow these steps to run **Netraya** locally on your system.
-
 ## 📋 Prerequisites
 
-Make sure you have the following installed:
-
-- Node.js
-- npm
+- Node.js and npm
 - MySQL
 - Git
-- VS Code
 
----
-
-## 📥 Clone Repository
+## 📥 Clone the Repository
 
 ```bash
 git clone https://github.com/Rizwana200/Netraya.git
 cd Netraya
-
 ```
-## 🖥️ Backend Setup
 
-Open a terminal and run:
+## 🗄️ Database Setup
+
+Create an empty MySQL database for the project (for example `netraya`).
+
+## 🔐 Environment Variables
+
+Create a file named `.env` inside the `server` folder:
+
+```env
+PORT=5000
+DB_HOST=localhost
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_NAME=netraya
+JWT_SECRET=replace_with_a_long_random_string
+```
+
+Never commit your `.env` file to GitHub.
+
+## 🖥️ Backend Setup
 
 ```bash
 cd server
 npm install
 npm start
-
 ```
-The backend will run on:
 
-```bash
-http://localhost:5000
+The backend runs on `http://localhost:5000`.
 
-```
-## 🖥️ Frontend Setup
+## 🌐 Frontend Setup
 
-Open a terminal and run:
+Open a second terminal:
 
 ```bash
 cd client
 npm install
 npm run dev
-
 ```
-The backend will run on:
 
-```bash
-http://localhost:5173
+The frontend runs on `http://localhost:5173`.
 
-```
+---
+
+# ⚠️ Known Limitations
+
+- The queue is clinic-wide: tokens are not assigned to a specific doctor.
+- Eye visits are not linked to the token that produced them.
+- Refraction and IOP values are stored as plain text without validation.
+- There is no automated test suite yet.
+
+---
 
 # 🚀 Future Improvements
 
-- Online Appointment Booking System
-- Electronic Health Records (EHR) & Prescription Storage
-- Integration with Optical Store Inventory
-- Email & SMS Notifications for Token Status
-- Doctor Analytics & Patient Visit Reports
-- Cloud Storage Integration for Medical Scans
-- Automated Testing Framework
+- Online appointment booking with time slots
+- Electronic Health Records (EHR) and prescription storage
+- Integration with optical store inventory
+- Email and SMS notifications for token status
+- Doctor analytics and patient visit reports
+- Cloud storage for medical scans
+- Automated testing framework
+
+---
 
 # 💡 Key Learnings
 
-Through this project, I gained practical experience in:
-
-- Building RESTful APIs using Express.js and Node.js
+- Building RESTful APIs with Express.js and Node.js
 - React component-based architecture and state management
-- MySQL database modeling and relational queries using Sequelize
-- Multi-role Authentication and Authorization
-- Full-stack application lifecycle management
-- Designing intuitive healthcare management user flows
-- Frontend and backend integration using Axios
+- Relational modeling in MySQL with Sequelize associations
+- Role-based authentication and authorization with JWT
+- Designing a token queue for clinic workflows
+- Connecting the frontend and backend with Axios
+
+---
 
 # 👩‍💻 Developer
 
-## Rizwana 💙
+**Rizwana**, B.Tech in Computer Science & Engineering
 
-**B.Tech – Computer Science & Engineering**
-
-### GitHub
-
-https://github.com/Rizwana200
+GitHub: [github.com/Rizwana200](https://github.com/Rizwana200)
 
 ---
 
@@ -300,15 +350,4 @@ https://github.com/Rizwana200
 
 **CARE • VISION • PRECISION**
 
-A full-stack eye clinic management system built to provide a simple, organized, and efficient digital experience for patients, doctors, and clinic staff.
-
-Built with:
-
-**React.js • Node.js • Express.js • MySQL**
-
-## 🔗 GitHub Repository
-```bash
-
-https://github.com/Rizwana200/Netraya.git
-
-```
+Repository: [github.com/Rizwana200/Netraya](https://github.com/Rizwana200/Netraya)
